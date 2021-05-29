@@ -82,7 +82,11 @@ public class RtspGrabberWithGPU {
             }
         }
 
-        if (CodeCheck.supportDecode(decodeName) && CodeCheck.supportEncode(encodeName)) {
+        boolean shouldCheck = true;
+        if (decodeName.contains("_")){
+            shouldCheck = false;
+        }
+        if (shouldCheck ||(CodeCheck.supportDecode(decodeName) && CodeCheck.supportEncode(encodeName))) {
             FFmpegLogCallback.set();
             try {
                 AtomicInteger count = new AtomicInteger();
