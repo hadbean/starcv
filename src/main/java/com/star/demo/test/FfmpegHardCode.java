@@ -31,7 +31,6 @@ public class FfmpegHardCode {
 
     /**
      * 转码
-     *
      * @param input          输入源
      * @param encodeName     编码名称
      * @param inputPixFormat 输入源像素格式

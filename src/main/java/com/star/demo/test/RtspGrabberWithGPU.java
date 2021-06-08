@@ -16,6 +16,7 @@ public class RtspGrabberWithGPU {
 
 //    public static String decodeName = "h264";
     public static String decodeName = "h264_cuvid";
+    public static String pixelFormat = "h264_cuvid";
 //    public static String encodeName = "hevc_nvenc";
     public static String encodeName = "hevc";
     public static String input = "rtsp://keyvalue:Admin123456@172.16.65.139:554/Streaming/Channels/101?transportmode=unicast&profile=Profile_1";
@@ -101,14 +102,20 @@ public class RtspGrabberWithGPU {
                         if (s.length == 2) {
                             n = Integer.valueOf(s[1]);
                         }
+                        final int finalN = n;
                         for (int i = 0; i < n; i++) {
                             Thread t = new Thread(() -> {
                                 RstpGrabber grabber = new RstpGrabber();
-                                grabber.setDecodeName(decodeName);
+                                int k = count.getAndIncrement();
+                                if(k > finalN/2){
+                                    grabber.setDecodeName("h265");
+                                }else {
+                                    grabber.setDecodeName(decodeName);
+                                }
                                 grabber.setEncodeName(encodeName);
                                 grabber.setEncode(isEncode);
                                 grabber.setInput(in);
-                                grabber.setOutput(outputDir + count.getAndIncrement() + ".mp4");
+                                grabber.setOutput(outputDir + k + ".mp4");
                                 try {
                                     grabber.frameRecord(1);
                                 } catch (Exception e) {

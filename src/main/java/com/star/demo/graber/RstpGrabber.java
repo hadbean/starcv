@@ -7,8 +7,9 @@ import javax.swing.*;
 
 public class RstpGrabber {
 
-    private String decodeName = "h264_nvenc";
+    private String decodeName = "h264_cuvid";
     private String encodeName = "hevc_nvenc";
+    private int pixFormat = avutil.AV_PIX_FMT_CUDA;
     private String input = "rtsp://keyvalue:Admin123456@172.16.65.139:554/Streaming/Channels/101?transportmode=unicast&profile=Profile_1";
     private String output = "/home/keyvalue/Videos/xx01.mp4";
     private boolean showImage = false;
@@ -37,7 +38,7 @@ public class RstpGrabber {
         grabber.setOption("hwaccel", "cuvid");
         grabber.setVideoCodecName(decodeName);
         grabber.setImageMode(FrameGrabber.ImageMode.RAW);
-        grabber.setPixelFormat(avutil.AV_PIX_FMT_CUDA);
+        grabber.setPixelFormat(pixFormat);
         // 开始取视频源
         OpenCVFrameGrabber cvFrameGrabber;
         grabber.setFrameRate(30);
